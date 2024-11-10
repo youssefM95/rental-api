@@ -15,7 +15,7 @@ class CreateBookingsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->float('total_price');
-            $table->enum('status', ['pending', 'confirmed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'refused'])->default('pending');
             $table->timestamps();
 
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
