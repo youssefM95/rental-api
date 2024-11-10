@@ -21,4 +21,9 @@ class Property extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function Images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }
