@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\StripeController;
 
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -17,9 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 // property routes
 Route::controller(PropertyController::class)->middleware('auth:sanctum')->group(function () {
@@ -41,3 +40,14 @@ Route::controller(BookingController::class)->middleware('auth:sanctum')->group(f
     Route::get('/my-request-bookings', 'getBookingsRequest');
     Route::post('/booking/{id}', 'update');
 });
+
+Route::controller(PaymentController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('/payment', 'store');
+    Route::get('/user-payments', 'getUserPayments');
+    Route::get('/property-user-payments', 'getPaymentsByUserProperty');
+    Route::post('/accept', 'accept');
+    Route::post('/refuse', 'refuse');
+});
+
+Route::post('/payment/processpayment', [StripeController::class,
+'processPayment']);

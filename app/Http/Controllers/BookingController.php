@@ -24,6 +24,7 @@ public function store(Request $request){
         'end_date' => 'required|date|after:start_date',
         'total_price' => 'required|numeric|min:0',
         'status' => 'required|string|in:confirmed,pending,refused',
+        'is_payed'=>'boolean'
     ]);
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
